@@ -1,29 +1,45 @@
 import "./App.css";
 import ToDo from "../src/assets/to-do-list.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [inputField, setInputField] = useState("");
   const [allToDos, setAllToDos] = useState([]);
 
+  useEffect(() => {
+    const saved = localStorage.getItem("taskdock-todos");
+    if (saved) setAllToDos(JSON.parse(saved));
+  }, []);
+
+  const saveToLocalStorage = (todos) => {
+    setAllToDos(todos);
+    localStorage.setItem("taskdock-todos", JSON.stringify(todos));
+  };
+
   const handleOnChange = (e) => {
     setInputField(e.target.value);
   };
 
-  const handleAddToDo = () => {
-    setAllToDos((prev) => [...prev, { text: inputField, isComplete: false }]);
+  const handleAddToDo = (e) => {
+    e.preventDefault();
+
+    if (inputField.trim() === "") return;
+
+    const newToDo = { text: inputField, completed: false };
+    saveToLocalStorage([...allToDos, newToDo]);
+
     setInputField("");
   };
 
   const handleToggleComplete = (index) => {
     const updated = [...allToDos];
     updated[index].completed = !updated[index].completed;
-    setAllToDos(updated);
+    saveToLocalStorage(updated);
   };
 
   const handleRemoveToDo = (index) => {
     const updated = allToDos.filter((todo, i) => i !== index);
-    setAllToDos(updated);
+    saveToLocalStorage(updated);
   };
 
   return (
@@ -60,7 +76,10 @@ function App() {
               </div>
 
               {/* Add To-Do */}
-              <div style={{ marginTop: "15px", position: "relative" }}>
+              <form
+                onSubmit={handleAddToDo}
+                style={{ marginTop: "15px", position: "relative" }}
+              >
                 <input
                   type="text"
                   className="custom-input"
@@ -68,13 +87,16 @@ function App() {
                   value={inputField}
                   onChange={handleOnChange}
                 />
-                <button className="custom-button" onClick={handleAddToDo}>
+                <button className="custom-button" type="submit">
                   Add
                 </button>
-              </div>
+              </form>
 
               {/* Show To-Do */}
-              <div style={{ flex: 1, marginTop: "15px", overflowY: "auto" }}>
+              <div
+                className="thin-scroll"
+                style={{ flex: 1, marginTop: "15px", overflowY: "auto" }}
+              >
                 {allToDos?.length === 0 ? (
                   <div
                     style={{
