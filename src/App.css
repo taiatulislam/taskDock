@@ -32,7 +32,7 @@
 }
 
 .custom-input:focus {
-  outline: 2px solid #00bfff;
+  outline: 1px solid #00bfff;
 }
 
 .custom-button {
@@ -44,5 +44,7 @@
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 1;
   border: none;
+  cursor: pointer;
 }

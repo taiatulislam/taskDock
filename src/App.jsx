@@ -1,7 +1,23 @@
 import "./App.css";
 import ToDo from "../src/assets/to-do-list.png";
+import { useState } from "react"
 
 function App() {
+
+  const [inputField, setInputField] = useState("");
+  const [allToDos, setAllToDos] = useState([]);
+
+  const handleOnChange = (e) => {
+    setInputField(e.target.value)
+  }
+
+  const handleAddToDo = () => {
+    setAllToDos(prev => [...prev, inputField])
+    setInputField("")
+  }
+
+  console.log("allToDos", allToDos)
+
   return (
     <div className="box">
       <div className="box-background">
@@ -30,8 +46,10 @@ function App() {
                 type="text"
                 className="custom-input"
                 placeholder="Add Your Text"
+                value={inputField}
+                onChange={handleOnChange}
               />
-              <button className="custom-button">Add</button>
+              <button className="custom-button" onClick={handleAddToDo}>Add</button>
             </div>
           </div>
         </div>
