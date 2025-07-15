@@ -1,4 +1,4 @@
-# 🌤️ TaskDock (To-Do)
+# 🗂️ TaskDock (To-Do)
 **Your Collaborative Task Management Platform**
 
 TaskDock is a simple, fast, and efficient task management tool built for teams and individuals. Organize tasks, track progress, and collaborate effortlessly—all in one intuitive interface.
